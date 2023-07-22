@@ -16,8 +16,7 @@ import {
 } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import { Modal } from 'components/index';
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@radix-ui/react-dialog';
-import { DialogHeader } from 'components/ui/dialog';
+import { Edit } from 'lucide-react';
 
 const formSchema = z.object({
     username: z.string().min(2, {
@@ -57,19 +56,32 @@ function App() {
 
     return (
         <div className="bg-slate-800 min-h-screen">
-            <Dialog>
-                <DialogTrigger>Open</DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                        <DialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete your account and remove your data from our
-                            servers.
-                        </DialogDescription>
-                    </DialogHeader>
-                </DialogContent>
-            </Dialog>
+            <Modal>
+                <Modal.Action className="bg-white rounded-sm p-2">
+                    Open
+                </Modal.Action>
+
+                <Modal.Content>
+                    <Modal.Title>Edit</Modal.Title>
+                    <Modal.Description>
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry.
+                    </Modal.Description>
+
+                    <FormContent form={form} onSubmit={onSubmit} />
+                </Modal.Content>
+            </Modal>
+            <Modal
+                title="How it works?"
+                description="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+            >
+                <Modal.Action className="bg-sky-400 rounded-sm p-2 ml-4">
+                    <Edit stroke="#fff" />
+                    </Modal.Action>
+                <Modal.Content>
+                    <FormContent form={form} onSubmit={onSubmit} />
+                </Modal.Content>
+            </Modal>
         </div>
     );
 }
@@ -102,7 +114,9 @@ const FormContent = ({
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Modal.Footer>
+                    <Button type="submit">Submit</Button>
+                </Modal.Footer>
             </form>
         </Form>
     );
