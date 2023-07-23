@@ -1,8 +1,5 @@
-
 const DashboardListDisplay = () => {
-  return (
-    <div>DashboardListDisplay</div>
-  )
-}
+    return <div>DashboardListDisplay</div>;
+};
 
-export default DashboardListDisplay
+export default DashboardListDisplay;

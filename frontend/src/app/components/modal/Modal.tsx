@@ -46,7 +46,7 @@ const ModalContent = (props: ModalContentProps) => {
     );
 };
 
-Modal.Action = DialogTrigger;
+Modal.Trigger = DialogTrigger;
 Modal.Footer = DialogFooter;
 Modal.Title = DialogTitle;
 Modal.Description = DialogDescription;

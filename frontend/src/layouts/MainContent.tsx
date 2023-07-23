@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const MainContent: React.FC<Props> = (props) => {
-    return <div>{props.children}</div>;
+    return <div className='p-6'>{props.children}</div>;
 };
