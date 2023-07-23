@@ -1,0 +1,48 @@
+.common {
+    position: fixed;
+    top: -8px;
+    left: 0;
+    height: 4px;
+
+    display: block;
+    width: 100%;
+    margin: 8px 0 16px 0;
+
+    background-color: #4AAD52;
+    border-radius: 2px;
+    background-clip: padding-box;
+
+    overflow: hidden;
+    z-index: 999;
+}
+
+.progress {
+    position: relative;
+    background-color: #4AAD52;
+}
+.progress:before {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: loader 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395)
+        infinite;
+    animation: loader 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+.progress:after {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: loader-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1)
+        infinite;
+    animation: loader-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 1.15s;
+    animation-delay: 1.15s;
+}

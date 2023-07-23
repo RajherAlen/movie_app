@@ -1,26 +1,20 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RootState } from './store'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+const API_KEY =
+	"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1Njc0ZDcxZmFhZGQyOGJmMzExMmE3N2NhOTQ0MzZkYSIsInN1YiI6IjYwN2FiMmZiN2E5N2FiMDA1N2M1M2RhMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o2wZcqBUfmtLaniBTOKoPjYfmhGd1vi60gm2AowOeAg";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api',
-    // this will send back our http only secure cookie
-    // send cookie to with every query
-    // credentials: 'include',
+	baseUrl: "https://api.themoviedb.org/3",
+	// mode: 'no-cors',
+	prepareHeaders(headers) {
+		headers.set("Content-Type", "application/json");
+		headers.set("authorization", `Bearer ${API_KEY}`);
 
-    // We attaching that access token to our header every time with every request
-    // if we have cookie wer're attaching those credentials in that cookie every time
-    prepareHeaders: (headers, { getState }) => {
-        const token = (getState() as RootState).authStore.userToken;
-
-        if (token) {
-            headers.set("authorization", `Bearer ${token}`)
-        }
-
-        return headers;
-    }
-})
+		return headers;
+	}
+});
 
 export const apiSlice = createApi({
-    baseQuery: baseQuery,
-    endpoints: builder => ({})
-})
+	baseQuery: baseQuery,
+	endpoints: () => ({})
+});
