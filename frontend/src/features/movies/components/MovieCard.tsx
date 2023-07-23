@@ -2,11 +2,22 @@ import { Check, Dot, Flag, MoveDown, PlusCircleIcon } from 'lucide-react';
 import { MovieProps } from '../model/Movie';
 import MovieImg from './MovieImg';
 
-const MovieCard = (movie: MovieProps) => {
-    return (
-        <div className="group relative mb-5 h-52 cursor-pointer overflow-hidden rounded-2xl p-4 text-white bg-blend-darken bg-slate-800">
-            <MovieImg path={movie.backdrop_path} />
-            
+interface MovieCardProps {
+    movie: MovieProps;
+    banner?: boolean;
+    isLoading?: boolean;
+}
+
+const MovieCard = (props: MovieCardProps) => {
+    const { movie } = props;
+    const isBanner = props.banner ? 'h-96' : 'h-52';
+
+    return !props.isLoading && movie ? (
+        <div
+            className={`group relative mb-5 ${isBanner} cursor-pointer overflow-hidden rounded-2xl bg-slate-800 p-4 text-white bg-blend-darken`}
+        >
+            <MovieImg path={movie.backdrop_path} banner={props.banner} />
+
             <PlusCircleIcon className="absolute right-2 top-2 text-white transition-all hover:scale-110" />
 
             <div className="relative">
@@ -27,6 +38,11 @@ const MovieCard = (movie: MovieProps) => {
                         {movie.original_language}
                     </p>
                 </div>
+            </div>
+        </div>
+    ) : (
+        <div className="w-full shadow rounded-2xl">
+            <div className={`animate-pulse ${isBanner} w-full bg-slate-800 rounded-2xl`}>
             </div>
         </div>
     );

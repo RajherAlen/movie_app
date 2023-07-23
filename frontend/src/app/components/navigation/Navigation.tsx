@@ -1,4 +1,4 @@
-import { Calendar, Compass, Heart } from 'lucide-react';
+import { Calendar, Compass, Heart, Megaphone } from 'lucide-react';
 import NavigationItem from './NavigationItem';
 
 const Navigation = () => {
@@ -25,6 +25,11 @@ const Navigation = () => {
                         to="/comming-soon"
                         icon={<Calendar width={16} className="text-slate-400" />}
                         title="Comming Soon"
+                    />
+                    <NavigationItem
+                        to="/watchlist"
+                        icon={<Heart width={16} className="text-slate-400" />}
+                        title="Watchlist"
                     />
                 </div>
             </div>

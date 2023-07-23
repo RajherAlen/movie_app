@@ -15,7 +15,7 @@ function App() {
 
     useEffect(() => {
         if (location.pathname === '/') {
-            navigate('/app/dashboard');
+            navigate('/dashboard');
         }
     }, []);
 
