@@ -24,7 +24,7 @@ export const routes: RouteObject[] = [
                         <InternalArea />
                     </React.Suspense>
                 ),
-                path: 'app/*',
+                path: '/*',
             },
             {
                 element: (
