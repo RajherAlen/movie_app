@@ -1,16 +1,15 @@
 import React from 'react';
-import MainHeader from './MainHeader';
+import { Outlet } from 'react-router-dom';
+import Layout from './Layout';
 
-const MainLayout = () => {
-    return (
-        <div className="bg">
-            <div>Navigation</div>
-            <div>
-                <MainHeader />
-                <div>Content</div>
-            </div>
-        </div>
-    );
+export type MainLayoutProps = {
+    children?: React.ReactNode;
 };
+
+export const MainLayout: React.FC<MainLayoutProps> = (props) => (
+    <Layout {...props}>
+        <Outlet />
+    </Layout>
+);
 
 export default MainLayout;
