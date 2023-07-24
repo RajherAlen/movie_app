@@ -17,11 +17,6 @@ const Navigation = () => {
                         title="Browse"
                     />
                     <NavigationItem
-                        to="/watchlist"
-                        icon={<Heart width={16} className="text-slate-400" />}
-                        title="Watchlist"
-                    />
-                    <NavigationItem
                         to="/comming-soon"
                         icon={<Calendar width={16} className="text-slate-400" />}
                         title="Comming Soon"

@@ -5,6 +5,7 @@ import MainLayout from 'layouts/MainLayout';
 
 const NotFound = React.lazy(() => import('../NotFound'));
 const DashboardListDisplay = React.lazy(() => import('./dashboard/list/DashboardListDisplay'));
+const UpcomingListDisplay = React.lazy(() => import('./upcoming/list/UpcomingListDisplay'));
 
 export const internalRoutes: RouteObject[] = [
     {
@@ -23,6 +24,14 @@ export const internalRoutes: RouteObject[] = [
                             </React.Suspense>
                         ),
                         path: '/dashboard',
+                    },
+                    {
+                        element: (
+                            <React.Suspense fallback={<PageLoader />}>
+                                <UpcomingListDisplay />
+                            </React.Suspense>
+                        ),
+                        path: '/comming-soon',
                     },
                 ],
             },

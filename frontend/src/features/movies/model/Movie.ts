@@ -14,3 +14,12 @@ export interface MovieProps {
 	vote_average: number;
 	vote_count: number;
 }
+
+export interface MovieGenres {
+	id: number;
+	name: string;
+}
+
+export interface MovieGenresProps {
+	genres: MovieGenres[];
+}

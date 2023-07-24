@@ -29,8 +29,8 @@ const Select = (props: SelectProps) => {
                 </SelectTrigger>
                 <SelectContent>
                     {props.options?.map((item) => (
-                        <SelectItem value={item.value} key={item.id}>
-                            {item.value}
+                        <SelectItem value={item.name} key={item.id}>
+                            {item.name}
                         </SelectItem>
                     ))}
                 </SelectContent>
