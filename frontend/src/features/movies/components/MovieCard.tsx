@@ -1,20 +1,41 @@
 import { Check, Dot, Flag, MoveDown, PlusCircleIcon } from 'lucide-react';
-import { MovieProps } from '../model/Movie';
+import { MovieDetails, MovieProps } from '../model/Movie';
 import MovieImg from './MovieImg';
+import { useNavigate } from 'react-router-dom';
 
 interface MovieCardProps {
-    movie: MovieProps;
+    movie: MovieProps | MovieDetails;
     banner?: boolean;
     isLoading?: boolean;
 }
 
 const MovieCard = (props: MovieCardProps) => {
     const { movie } = props;
-    const isBanner = props.banner ? 'h-96' : 'h-52';
+    const isBanner = props.banner ? 'h-72' : 'h-52';
 
     return !props.isLoading && movie ? (
+        <MovieCardComp movie={movie} />
+    ) : (
+        <div className="w-full rounded-2xl shadow">
+            <div
+                className={`animate-pulse ${isBanner} w-full rounded-2xl bg-slate-800`}
+            ></div>
+        </div>
+    );
+};
+
+export default MovieCard;
+
+const MovieCardComp = (props: MovieCardProps) => {
+    const { movie } = props;
+    const navigate = useNavigate();
+
+    const isBanner = props.banner ? 'h-72' : 'h-52';
+
+    return (
         <div
             className={`group relative mb-5 ${isBanner} cursor-pointer overflow-hidden rounded-2xl bg-slate-800 p-4 text-white bg-blend-darken`}
+            onClick={() => navigate(`/movie/preview/${movie.id}`)}
         >
             <MovieImg path={movie.backdrop_path} banner={props.banner} />
 
@@ -40,12 +61,5 @@ const MovieCard = (props: MovieCardProps) => {
                 </div>
             </div>
         </div>
-    ) : (
-        <div className="w-full shadow rounded-2xl">
-            <div className={`animate-pulse ${isBanner} w-full bg-slate-800 rounded-2xl`}>
-            </div>
-        </div>
     );
 };
-
-export default MovieCard;

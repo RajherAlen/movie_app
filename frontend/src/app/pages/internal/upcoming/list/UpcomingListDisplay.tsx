@@ -15,8 +15,6 @@ const UpcomingListDisplay = () => {
 
     return (
         <div>
-            
-
             <MovieList
                 isLoading={isLoading}
                 movieList={movieList}

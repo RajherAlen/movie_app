@@ -6,6 +6,7 @@ import MainLayout from 'layouts/MainLayout';
 const NotFound = React.lazy(() => import('../NotFound'));
 const DashboardListDisplay = React.lazy(() => import('./dashboard/list/DashboardListDisplay'));
 const UpcomingListDisplay = React.lazy(() => import('./upcoming/list/UpcomingListDisplay'));
+const MoviePreviewListDisplay = React.lazy(() => import('./movie/preview/MoviePreviewListDisplay'));
 
 export const internalRoutes: RouteObject[] = [
     {
@@ -32,6 +33,14 @@ export const internalRoutes: RouteObject[] = [
                             </React.Suspense>
                         ),
                         path: '/comming-soon',
+                    },
+                    {
+                        element: (
+                            <React.Suspense fallback={<PageLoader />}>
+                                <MoviePreviewListDisplay />
+                            </React.Suspense>
+                        ),
+                        path: '/movie/preview/:movieId',
                     },
                 ],
             },

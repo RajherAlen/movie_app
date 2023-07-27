@@ -1,4 +1,4 @@
-import {  MovieGenresProps, MovieProps } from "../model/Movie";
+import { MovieDetails, MovieGenresProps, MovieProps } from "../model/Movie";
 import { apiSlice } from "app/auth/apiSlice";
 
 export const movieApiSlice = apiSlice.injectEndpoints({
@@ -23,9 +23,15 @@ export const movieApiSlice = apiSlice.injectEndpoints({
 				method: "GET"
 			})
 		}),
-		getMovieByName: builder.query<{ results: MovieProps[] }, number | void>({
-			query: () => ({
-				url: `/search/movie?query=harry&include_adult=false&language=en-US&page=1`,
+		getMovieByName: builder.query<{ results: MovieProps[] }, string | void>({
+			query: (movieName: string) => ({
+				url: `/search/movie?query=${movieName}`,
+				method: "GET"
+			})
+		}),
+		getMovieDetails: builder.query<MovieDetails, number | string | void>({
+			query: (movieId: number | string) => ({
+				url: `/movie/${movieId}`,
 				method: "GET"
 			})
 		}),
@@ -38,5 +44,11 @@ export const movieApiSlice = apiSlice.injectEndpoints({
 	})
 });
 
-export const { useGetPlayingNowMoviesQuery, useGetMovieByNameQuery, useGetUpcomingMovieQuery, useGetPopularMovieQuery, useGetGenresQuery } =
-	movieApiSlice;
+export const {
+	useGetPlayingNowMoviesQuery,
+	useGetMovieByNameQuery,
+	useGetUpcomingMovieQuery,
+	useGetPopularMovieQuery,
+	useGetGenresQuery,
+	useGetMovieDetailsQuery
+} = movieApiSlice;
