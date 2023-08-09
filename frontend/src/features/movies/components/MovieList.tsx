@@ -9,9 +9,8 @@ interface MovieListProps {
 }
 
 const MovieList = (props: MovieListProps) => {
-    const setMovieNumber = props.movieNumber
-        ? props.movieNumber
-        : props.movieList.length;
+    const setMovieNumber = props.movieNumber ? props.movieNumber : props.movieList.length;
+    
     return (
         <div>
             <h1 className="mb-6 text-lg font-bold text-slate-300">

@@ -1,18 +1,45 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useGetMovieDetailsQuery } from 'features/movies/api/movieApiSlice';
-import { MovieCard } from 'features/movies/components';
+import Video from 'components/video/Video';
+
+import {
+    useGetMovieDetailsQuery,
+    useGetMovieVideoQuery,
+    useGetSimilarMovieQuery,
+} from 'features/movies/api/movieApiSlice';
+import { MovieCard, MovieList } from 'features/movies/components';
+import { MovieProps } from 'features/movies/model/Movie';
 
 const MoviePreviewListDisplay = () => {
     const navigate = useNavigate();
     const { movieId } = useParams();
-    const { data, isLoading, isFetching } = useGetMovieDetailsQuery(movieId);
+    const movieDetails = useGetMovieDetailsQuery(movieId);
+    const movieVideo = useGetMovieVideoQuery(movieId);
+    const similarMovies = useGetSimilarMovieQuery(movieId);
 
-    if (!isLoading && !data) {
+    if (!movieDetails.isLoading && !movieDetails.data) {
         return navigate(-1);
     }
 
-    return isFetching ? <div>Loading</div> : <MovieCard movie={data!} />;
+    return movieDetails.isFetching ? (
+        <div>Loading</div>
+    ) : (
+        <div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {movieDetails.data ?<MovieCard fullHeight movie={movieDetails.data!} /> : null}
+                {movieVideo.data && movieVideo.data?.results[0] ? <Video videoId={movieVideo.data?.results[0].key} /> : null}
+            </div>
+
+            <div className="mt-10">
+                <MovieList 
+                    isLoading={similarMovies.isLoading}
+                    movieList={similarMovies.data?.results}
+                    title="Similar Movies"
+                    movieNumber={4}
+                />
+            </div>
+        </div>
+    );
 };
 
 export default MoviePreviewListDisplay;

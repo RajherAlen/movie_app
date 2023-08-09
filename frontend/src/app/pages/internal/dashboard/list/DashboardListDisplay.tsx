@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import {
     useGetPlayingNowMoviesQuery,
+    useGetTopRatedMovieQuery,
     useGetUpcomingMovieQuery,
 } from 'features/movies/api/movieApiSlice';
 import { MovieCard, MovieFilter, MovieList } from 'features/movies/components';
@@ -9,20 +10,20 @@ import { MovieProps } from 'features/movies/model/Movie';
 
 const DashboardListDisplay = () => {
     const { data, isLoading } = useGetPlayingNowMoviesQuery();
-    const { data: popularData } = useGetUpcomingMovieQuery();
+    const { data: topRated } = useGetTopRatedMovieQuery();
 
     const [movieList, setMovieList] = useState<MovieProps[]>([]);
-    const [popularList, setPopularList] = useState<MovieProps[]>([]);
+    const [topRatedMovies, setTopRatedMovies] = useState<MovieProps[]>([]);
 
     useEffect(() => {
         if (data) {
             setMovieList(data.results);
         }
 
-        if (popularData) {
-            setPopularList(popularData.results);
+        if (topRated) {
+            setTopRatedMovies(topRated.results);
         }
-    }, [data, popularData]);
+    }, [data, topRated]);
 
     return (
         <>
@@ -49,7 +50,7 @@ const DashboardListDisplay = () => {
             />
             <MovieList
                 isLoading={isLoading}
-                movieList={popularList}
+                movieList={topRatedMovies}
                 title="Popular movies"
                 movieNumber={4}
             />
