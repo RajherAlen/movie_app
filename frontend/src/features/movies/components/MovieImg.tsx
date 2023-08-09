@@ -6,7 +6,7 @@ const MovieImg = ({ path, banner }: { path: string; banner?: boolean }) => {
     return (
         <img
             className={clsx(
-                'absolute inset-0 h-full w-full rounded-2xl opacity-40 transition-all group-hover:scale-110 group-hover:opacity-90',
+                'absolute inset-0 h-full w-full object-cover rounded-2xl opacity-40 transition-all group-hover:scale-110 group-hover:opacity-90',
                 banner ? 'lg:h-[160%]' : '',
             )}
             src={`${posterUrl}/${path}`}
