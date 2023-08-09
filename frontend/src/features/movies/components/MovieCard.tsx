@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
+
 import { Check, Dot, Flag, MoveDown, PlusCircleIcon } from 'lucide-react';
+
 import { MovieDetails, MovieProps } from '../model/Movie';
 import MovieImg from './MovieImg';
-import { useNavigate } from 'react-router-dom';
 
 interface MovieCardProps {
     movie: MovieProps | MovieDetails;

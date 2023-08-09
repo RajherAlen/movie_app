@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
+
 import {
     useGetPlayingNowMoviesQuery,
     useGetUpcomingMovieQuery,
 } from 'features/movies/api/movieApiSlice';
 import { MovieCard, MovieFilter, MovieList } from 'features/movies/components';
 import { MovieProps } from 'features/movies/model/Movie';
-import { useEffect, useState } from 'react';
 
 const DashboardListDisplay = () => {
     const { data, isLoading } = useGetPlayingNowMoviesQuery();

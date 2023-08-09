@@ -1,12 +1,20 @@
 import React from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
+
 import { PageLoader } from 'components/loaders';
+
 import MainLayout from 'layouts/MainLayout';
 
 const NotFound = React.lazy(() => import('../NotFound'));
-const DashboardListDisplay = React.lazy(() => import('./dashboard/list/DashboardListDisplay'));
-const UpcomingListDisplay = React.lazy(() => import('./upcoming/list/UpcomingListDisplay'));
-const MoviePreviewListDisplay = React.lazy(() => import('./movie/preview/MoviePreviewListDisplay'));
+const DashboardListDisplay = React.lazy(
+    () => import('./dashboard/list/DashboardListDisplay'),
+);
+const UpcomingListDisplay = React.lazy(
+    () => import('./upcoming/list/UpcomingListDisplay'),
+);
+const MoviePreviewListDisplay = React.lazy(
+    () => import('./movie/preview/MoviePreviewListDisplay'),
+);
 
 export const internalRoutes: RouteObject[] = [
     {

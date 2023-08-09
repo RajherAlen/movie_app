@@ -1,4 +1,5 @@
 import { Calendar, Compass, Heart } from 'lucide-react';
+
 import NavigationItem from './NavigationItem';
 
 const Navigation = () => {

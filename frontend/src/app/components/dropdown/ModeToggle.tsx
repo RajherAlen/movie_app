@@ -1,7 +1,9 @@
+import { Button } from 'components/ui/Button';
+
 import { Mail, Moon, PlusCircle, Sun, UserPlus } from 'lucide-react';
 import { useTheme } from 'next-themes';
+
 import Dropdown, { ItemProps } from './Dropdown';
-import { Button } from 'components/ui/Button';
 
 const ModeToggle = () => {
     const { setTheme } = useTheme();
@@ -33,7 +35,7 @@ const ModeToggle = () => {
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </Dropdown.Trigger>
-            <Dropdown.Content  items={dropdownItems}></Dropdown.Content>
+            <Dropdown.Content items={dropdownItems}></Dropdown.Content>
         </Dropdown>
     );
 };

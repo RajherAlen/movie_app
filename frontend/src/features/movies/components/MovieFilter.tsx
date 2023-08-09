@@ -1,5 +1,7 @@
-import Select from 'components/select/Select';
 import { useEffect, useState } from 'react';
+
+import Select from 'components/select/Select';
+
 import { useGetGenresQuery } from '../api/movieApiSlice';
 import { MovieGenres } from '../model/Movie';
 

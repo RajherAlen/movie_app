@@ -1,5 +1,6 @@
-import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
+
+import clsx from 'clsx';
 
 interface SvgIconProps {
     width: number;
@@ -19,7 +20,9 @@ const NavigationItem = ({ icon: Icon, title, to }: NavigationItemProps) => {
     const currentLocation = location.pathname;
     const isActive = currentLocation === to;
 
-    const isActiveStyle = isActive ? 'text-slate-600 dark:text-white' : 'text-slate-400';
+    const isActiveStyle = isActive
+        ? 'text-slate-600 dark:text-white'
+        : 'text-slate-400';
 
     return (
         <Link

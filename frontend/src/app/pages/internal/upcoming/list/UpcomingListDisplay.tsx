@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { useGetUpcomingMovieQuery } from 'features/movies/api/movieApiSlice';
 import { MovieList } from 'features/movies/components';
 import { MovieProps } from 'features/movies/model/Movie';

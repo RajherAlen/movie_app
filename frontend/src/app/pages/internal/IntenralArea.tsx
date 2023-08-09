@@ -1,4 +1,5 @@
 import { useRoutes } from 'react-router-dom';
+
 import { internalRoutes } from './intenralRoutes';
 
 export const IntenralArea: React.FC = () => {

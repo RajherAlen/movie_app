@@ -1,9 +1,13 @@
 import React from 'react';
+
 // import loader from './PageLoader.module.css';
 
 export const PageLoader: React.FC = () => (
     <div className="fixed bottom-0 left-0 right-0 top-0">
-        <div role="status" className='fixed top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]'>
+        <div
+            role="status"
+            className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
+        >
             <svg
                 aria-hidden="true"
                 className="mr-2 h-12 w-12 animate-spin fill-slate-800 text-gray-200 dark:text-gray-600"

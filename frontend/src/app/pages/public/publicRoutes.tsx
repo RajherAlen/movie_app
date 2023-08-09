@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteObject } from 'react-router-dom';
+
 import { PageLoader } from 'components/loaders';
 
 const NotFound = React.lazy(() => import('../NotFound'));

@@ -1,7 +1,9 @@
-import Navigation from 'components/navigation/Navigation';
 import React from 'react';
-import MainHeader from './MainHeader';
+
+import Navigation from 'components/navigation/Navigation';
+
 import { MainContent } from './MainContent';
+import MainHeader from './MainHeader';
 
 export type LayoutProps = {
     children: React.ReactNode;
@@ -12,7 +14,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         <div className="flex min-h-screen">
             <Navigation />
 
-            <div className="flex flex-1 flex-col pl-6 h-screen">
+            <div className="flex h-screen flex-1 flex-col pl-6">
                 <MainHeader />
                 <MainContent>{props.children}</MainContent>
             </div>

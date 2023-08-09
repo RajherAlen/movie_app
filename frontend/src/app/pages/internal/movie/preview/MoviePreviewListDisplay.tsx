@@ -1,6 +1,7 @@
-import { MovieCard } from 'features/movies/components';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import { useGetMovieDetailsQuery } from 'features/movies/api/movieApiSlice';
+import { MovieCard } from 'features/movies/components';
 
 const MoviePreviewListDisplay = () => {
     const navigate = useNavigate();
