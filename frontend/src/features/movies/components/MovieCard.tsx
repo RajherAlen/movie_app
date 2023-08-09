@@ -8,15 +8,16 @@ import MovieImg from './MovieImg';
 interface MovieCardProps {
     movie: MovieProps | MovieDetails;
     banner?: boolean;
+    fullHeight?: boolean;
     isLoading?: boolean;
 }
 
 const MovieCard = (props: MovieCardProps) => {
     const { movie } = props;
-    const isBanner = props.banner ? 'h-72' : 'h-52';
+    const isBanner = props.fullHeight ? 'h-full' : props.banner ? 'h-72' : 'h-52';
 
     return !props.isLoading && movie ? (
-        <MovieCardComp movie={movie} />
+        <MovieCardComp movie={movie} banner={props.banner}  fullHeight={props.fullHeight} />
     ) : (
         <div className="w-full rounded-2xl shadow">
             <div
@@ -29,10 +30,10 @@ const MovieCard = (props: MovieCardProps) => {
 export default MovieCard;
 
 const MovieCardComp = (props: MovieCardProps) => {
-    const { movie } = props;
+    const { movie, fullHeight, banner } = props;
     const navigate = useNavigate();
 
-    const isBanner = props.banner ? 'h-72' : 'h-52';
+    const isBanner = fullHeight ? 'h-full' : banner ? 'h-72' : 'h-52';
 
     return (
         <div
