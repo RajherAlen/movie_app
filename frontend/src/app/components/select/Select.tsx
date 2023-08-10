@@ -11,6 +11,7 @@ interface SelectProps {
     placeholder?: string;
     label: string;
     options: any[];
+    onChange: (value: any) => void;
 }
 
 const Select = (props: SelectProps) => {
@@ -20,7 +21,7 @@ const Select = (props: SelectProps) => {
                 {props.label}
             </Label>
 
-            <SelectRoot>
+            <SelectRoot onValueChange={props.onChange}>
                 <SelectTrigger className="w-[180px]">
                     <SelectValue
                         placeholder={props.placeholder}

@@ -1,59 +1,91 @@
-import { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 
 import {
+    useGetMovieByGenreQuery,
+    useGetMovieByNameQuery,
     useGetPlayingNowMoviesQuery,
     useGetTopRatedMovieQuery,
-    useGetUpcomingMovieQuery,
 } from 'features/movies/api/movieApiSlice';
 import { MovieCard, MovieFilter, MovieList } from 'features/movies/components';
 import { MovieProps } from 'features/movies/model/Movie';
+import { useAppSelector } from 'app/auth/hooks';
 
 const DashboardListDisplay = () => {
-    const { data, isLoading } = useGetPlayingNowMoviesQuery();
-    const { data: topRated } = useGetTopRatedMovieQuery();
+    const movieName = useAppSelector((state) => state.movieStore.movieName);
 
-    const [movieList, setMovieList] = useState<MovieProps[]>([]);
     const [topRatedMovies, setTopRatedMovies] = useState<MovieProps[]>([]);
+    const [moviesByGenre, setMoviesByGenre] = useState<MovieProps[]>([]);
+    const [movieList, setMovieList] = useState<MovieProps[]>([]);
+    const [selectedGenre, setSelectedGenre] = useState<{id: number, name: string}>({id: 0, name: ''});
+  
+    const { data: nowPlayingMovies, isLoading: nowPlayingLoading } = useGetPlayingNowMoviesQuery();
+    const { data: topRated, isLoading: topRatedLoading } = useGetTopRatedMovieQuery();
+    const { data: genreMovies, isLoading: genreLoading } = useGetMovieByGenreQuery(selectedGenre.id);
+    const { data: searchResults, isLoading: searchResultsLoading } = useGetMovieByNameQuery(movieName);
 
     useEffect(() => {
-        if (data) {
-            setMovieList(data.results);
+        if (nowPlayingMovies) {
+            setMovieList(nowPlayingMovies.results);
         }
 
         if (topRated) {
             setTopRatedMovies(topRated.results);
         }
-    }, [data, topRated]);
+    }, [nowPlayingMovies, topRated]);
+
+    useEffect(() => {
+        if (genreMovies && selectedGenre) {
+            setMoviesByGenre(genreMovies.results);
+        }
+    }, [genreMovies, selectedGenre]);
 
     return (
         <>
-            <MovieFilter />
+            <MovieFilter setGenre={setSelectedGenre} />
 
-            <div className="mb-6 grid grid-cols-2 gap-6">
-                <MovieCard
-                    banner={true}
-                    movie={movieList[0]}
-                    isLoading={isLoading}
+            {movieName && searchResults ? (
+                <MovieList
+                    isLoading={searchResultsLoading}
+                    movieList={searchResults.results}
+                    title={`Searched name: ${movieName}`}
+                    movieNumber={12}
                 />
-                <MovieCard
-                    banner={true}
-                    movie={movieList[2]}
-                    isLoading={isLoading}
+            ) : selectedGenre.name !== '' ? (
+                <MovieList
+                    isLoading={genreLoading}
+                    movieList={moviesByGenre}
+                    title={selectedGenre.name}
+                    movieNumber={12}
                 />
-            </div>
+            ) : (
+                <>
+                    <div className="mb-6 grid grid-cols-2 gap-6">
+                        <MovieCard
+                            banner
+                            movie={movieList[0]}
+                            isLoading={nowPlayingLoading}
+                        />
+                        <MovieCard
+                            banner
+                            movie={movieList[2]}
+                            isLoading={nowPlayingLoading}
+                        />
+                    </div>
 
-            <MovieList
-                isLoading={isLoading}
-                movieList={movieList}
-                title="Playing now"
-                movieNumber={4}
-            />
-            <MovieList
-                isLoading={isLoading}
-                movieList={topRatedMovies}
-                title="Popular movies"
-                movieNumber={4}
-            />
+                    <MovieList
+                        isLoading={nowPlayingLoading}
+                        movieList={movieList}
+                        title="Playing now"
+                        movieNumber={4}
+                    />
+                    <MovieList
+                        isLoading={topRatedLoading}
+                        movieList={topRatedMovies}
+                        title="Popular movies"
+                        movieNumber={4}
+                    />
+                </>
+            )}
         </>
     );
 };

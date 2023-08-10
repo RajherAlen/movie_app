@@ -12,7 +12,7 @@ const MovieList = (props: MovieListProps) => {
     const setMovieNumber = props.movieNumber ? props.movieNumber : props.movieList.length;
     
     return (
-        <div>
+        <div className='mb-10'>
             <h1 className="mb-6 text-lg font-bold text-slate-300">
                 {props.title}
             </h1>

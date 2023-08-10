@@ -5,29 +5,35 @@ import Select from 'components/select/Select';
 import { useGetGenresQuery } from '../api/movieApiSlice';
 import { MovieGenres } from '../model/Movie';
 
-const MovieFilter = () => {
+interface MovieFilterProps {
+    setGenre: (movies: any) => void;
+}
+
+const MovieFilter = ({ setGenre }: MovieFilterProps) => {
     const { data, isLoading } = useGetGenresQuery();
-    const [genres, setGenres] = useState<MovieGenres[]>([]);
+    const [movieGenres, setMovieGenres] = useState<MovieGenres[]>([]);
 
     useEffect(() => {
         if (data) {
-            setGenres(data.genres);
+            setMovieGenres(data.genres);
         }
     }, [data, isLoading]);
 
     return (
-        <div className="mb-5 flex gap-6">
+        <div className="mb-8 flex gap-6">
             <div>
                 <Select
                     label="Select genres"
                     placeholder="Genres"
-                    options={genres}
+                    options={movieGenres}
+                    onChange={(e: any) => setGenre(movieGenres.filter(item => item.name === e)[0])}
                 />
             </div>
-            <div>
+            {/* <div>
                 <Select
                     label="Select rating"
                     placeholder="Rating"
+                    onChange={()=> {}}
                     options={[
                         { name: '10', id: Math.random() },
                         { name: '9', id: Math.random() },
@@ -41,7 +47,7 @@ const MovieFilter = () => {
                         { name: '1', id: Math.random() },
                     ]}
                 />
-            </div>
+            </div> */}
         </div>
     );
 };
