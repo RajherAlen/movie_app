@@ -9,6 +9,7 @@ const MovieImg = ({ path, banner }: { path: string; banner?: boolean }) => {
                 'absolute inset-0 h-full w-full rounded-2xl object-cover opacity-40 transition-all group-hover:scale-105 group-hover:opacity-90',
                 banner ? 'lg:h-[160%]' : '',
             )}
+            // loading="lazy"
             src={`${posterUrl}/${path}`}
             alt="poster image"
         />

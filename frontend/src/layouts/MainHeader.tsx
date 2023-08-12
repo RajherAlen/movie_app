@@ -33,7 +33,7 @@ const MainHeader = ({ children }: MainHeaderProps) => {
     }, [params]);
 
     return (
-        <header className="body-font min-h-[75px] h-[75px] w-full border-b py-4 text-gray-600">
+        <header className="body-font min-h-[75px] h-[75px] w-full border-b ml-6 py-4 text-gray-600">
             {params['*'] === 'dashboard' && (
                 <div className="w-52">
                     <Input
