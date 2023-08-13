@@ -14,7 +14,6 @@ const SimilarMovies = () => {
                     isLoading={similarMovies.isLoading}
                     movieList={similarMovies.data?.results}
                     title="Similar Movies"
-                    movieNumber={4}
                 />
             </div>
         )

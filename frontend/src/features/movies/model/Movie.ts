@@ -87,3 +87,8 @@ export interface MovieVideoProps {
 	id: number;
 	results: VideoProps[];
 }
+
+export interface MovieGenreProps {
+	genreId: number | string;
+	page: number
+}

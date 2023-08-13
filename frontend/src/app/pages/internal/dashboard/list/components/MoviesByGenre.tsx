@@ -11,9 +11,10 @@ interface MoviesByGenreProps {
 
 const MoviesByGenre = (props: MoviesByGenreProps) => {
     const [moviesByGenre, setMoviesByGenre] = useState<MovieProps[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const { data: genreMovies, isLoading: genreLoading } =
-        useGetMovieByGenreQuery(props.id);
+        useGetMovieByGenreQuery({ genreId: props.id, page: currentPage });
 
     useEffect(() => {
         if (genreMovies) {
@@ -26,7 +27,7 @@ const MoviesByGenre = (props: MoviesByGenreProps) => {
             isLoading={genreLoading}
             movieList={moviesByGenre}
             title={props.name}
-            // movieNumber={12}
+            grid
         />
     );
 };

@@ -15,17 +15,23 @@ interface SelectedGenreProps {
     name: string;
 }
 
+const initialValue = {
+    id: 0,
+    name: '',
+}
+
 const DashboardListDisplay = () => {
     const movieName = useAppSelector((state) => state.movieStore.movieName);
 
-    const [selectedGenre, setSelectedGenre] = useState<SelectedGenreProps>({
-        id: 0,
-        name: '',
-    });
+    const [selectedGenre, setSelectedGenre] = useState<SelectedGenreProps>(initialValue);
 
     return (
         <>
-            <MovieFilter setGenre={setSelectedGenre} />
+            <MovieFilter
+                selectedGenre={selectedGenre.name}
+                setGenre={setSelectedGenre}
+                handleClearValue={() => setSelectedGenre(initialValue)}
+            />
 
             {movieName && <MoviesBySearchQuery />}
             {selectedGenre.name !== '' && <MoviesByGenre {...selectedGenre} />}

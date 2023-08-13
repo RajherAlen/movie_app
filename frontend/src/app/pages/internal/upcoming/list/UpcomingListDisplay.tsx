@@ -19,8 +19,8 @@ const UpcomingListDisplay = () => {
             <MovieList
                 isLoading={isLoading}
                 movieList={movieList}
-                movieNumber={4}
                 title="Upcoming Movies"
+                grid
             />
         </div>
     );

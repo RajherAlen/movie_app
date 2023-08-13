@@ -1,22 +1,31 @@
+import CardListLoader from 'components/cards/CardListLoader';
 import { MovieCard } from '.';
 import { MovieProps } from '../model/Movie';
+import clsx from 'clsx';
 
 interface MovieListProps {
     isLoading: boolean;
     movieList: MovieProps[];
     movieNumber?: number;
     title: string;
+    grid?: boolean;
 }
 
 const MovieList = (props: MovieListProps) => {
     const setMovieNumber = props.movieNumber ? props.movieNumber : props.movieList.length;
     
+    const cardClassName = clsx(
+        'flex overflow-hidden overflow-x-auto',
+        props.grid && "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7",
+        "gap-4",
+    )
+
     return (
         <div className='mb-10'>
             <h1 className="mb-6 text-lg font-bold text-slate-300">
                 {props.title}
             </h1>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            <div className={cardClassName}>
                 {!props.isLoading
                     ? props.movieList?.slice(0, setMovieNumber).map((movie) => {
                           return (
@@ -24,19 +33,13 @@ const MovieList = (props: MovieListProps) => {
                                   movie={movie}
                                   key={movie.id}
                                   isLoading={props.isLoading}
+                                  grid={props.grid}
                               />
                           );
                       })
-                    : Array.from({ length: setMovieNumber }, (_, index) => (
-                          <div
-                              className="w-full rounded-2xl shadow"
-                              key={index}
-                          >
-                              <div
-                                  className={`h-52 w-full animate-pulse rounded-2xl bg-slate-800`}
-                              ></div>
-                          </div>
-                      ))}
+                    : 
+                    <CardListLoader list={setMovieNumber} />
+                }
             </div>
         </div>
     );

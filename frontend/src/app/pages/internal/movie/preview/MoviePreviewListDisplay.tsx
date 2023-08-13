@@ -25,7 +25,7 @@ const MoviePreviewListDisplay = () => {
     ) : (
         <div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {movieDetails.data ?<MovieCard fullHeight movie={movieDetails.data!} /> : null}
+                {movieDetails.data ?<MovieCard banner movie={movieDetails.data!} /> : null}
                 {movieVideo.data && movieVideo.data?.results[0] ? <Video videoId={movieVideo.data?.results[0].key} /> : null}
             </div>
 

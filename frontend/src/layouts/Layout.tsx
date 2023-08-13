@@ -14,7 +14,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         <div className="flex min-h-screen">
             <Navigation />
 
-            <div className="flex h-screen flex-1 flex-col">
+            <div className="flex h-screen flex-1 flex-col w-full relative overflow-hidden">
                 <MainHeader />
                 <MainContent>{props.children}</MainContent>
             </div>

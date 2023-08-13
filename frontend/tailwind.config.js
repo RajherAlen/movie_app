@@ -73,6 +73,9 @@ module.exports = {
             blur: {
                 xs: '2px',
             },
+            minWidth: {
+                '200': '200px',
+            },
         },
     },
     plugins: [require('tailwindcss-animate')],
