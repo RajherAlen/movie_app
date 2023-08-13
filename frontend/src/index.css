@@ -54,7 +54,7 @@
         @apply border-border;
     }
     body {
-        overflow: hidden;
+        /* overflow: hidden; */
         @apply bg-background text-foreground;
     }
 }

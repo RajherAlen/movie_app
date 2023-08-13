@@ -4,6 +4,8 @@ import Select from 'components/select/Select';
 
 import { useGetGenresQuery } from '../api/movieApiSlice';
 import { MovieGenres } from '../model/Movie';
+import { useAppDispatch } from 'app/auth/hooks';
+import { setNewPage } from '../movieSlice';
 
 interface MovieFilterProps {
     selectedGenre: string
@@ -12,9 +14,16 @@ interface MovieFilterProps {
 }
 
 const MovieFilter = ({ setGenre, selectedGenre, handleClearValue }: MovieFilterProps) => {
+    const dispatch = useAppDispatch();
+
     const { data, isLoading } = useGetGenresQuery();
     const [movieGenres, setMovieGenres] = useState<MovieGenres[]>([]);
     
+    const handleSelectChange = (e: any) => {
+        dispatch(setNewPage(1));
+        setGenre(movieGenres.filter(item => item.name === e)[0])
+    }
+
     useEffect(() => {
         if (data) {
             setMovieGenres(data.genres);
@@ -27,7 +36,7 @@ const MovieFilter = ({ setGenre, selectedGenre, handleClearValue }: MovieFilterP
                 label="Select genres"
                 placeholder="Genres"
                 options={movieGenres}
-                onChange={(e: any) => setGenre(movieGenres.filter(item => item.name === e)[0])}
+                onChange={(e: any) => handleSelectChange(e)}
                 value={selectedGenre}
                 handleClearValue={handleClearValue}
             />

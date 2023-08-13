@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	loading: false,
 	error: null,
-	movieName: ''
+	movieName: '',
+	currentPage: 1,
 };
 
 const movieSlice = createSlice({
@@ -12,9 +13,12 @@ const movieSlice = createSlice({
 	reducers: {
 		searchedMovie: (state, { payload }) => {
 			state.movieName = payload;
+		},
+		setNewPage: (state, {payload}) => {
+			state.currentPage = payload;
 		}
 	}
 });
 
-export const { searchedMovie } = movieSlice.actions;
+export const { searchedMovie, setNewPage } = movieSlice.actions;
 export default movieSlice.reducer;

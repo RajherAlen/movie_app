@@ -76,6 +76,9 @@ module.exports = {
             minWidth: {
                 '200': '200px',
             },
+            minHeight: {
+                '340': '340px'
+            }
         },
     },
     plugins: [require('tailwindcss-animate')],
