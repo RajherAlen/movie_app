@@ -18,7 +18,7 @@ const MovieImg = ({ fullHeight, path, banner }: MovieImgProps) => {
             <img
                 className={clsx(
                     isBanner,
-                    'w-full object-cover opacity-40 transition-all group-hover:scale-105 group-hover:opacity-90',
+                    'w-full object-cover opacity-40 transition-all group-hover:opacity-90',
                 )}
                 loading="lazy"
                 src={`${posterUrl}/${path}`}

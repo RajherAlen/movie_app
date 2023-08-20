@@ -15,6 +15,15 @@ export interface MovieProps {
 	vote_count: number;
 }
 
+export interface MovieComponentProps {
+	movie: MovieProps | MovieDetails;
+	banner?: boolean;
+	fullHeight?: boolean;
+	isLoading?: boolean;
+	grid?: boolean;
+	showTrailer?: boolean;
+}
+
 export interface MovieGenres {
 	id: number;
 	name: string;
@@ -90,5 +99,5 @@ export interface MovieVideoProps {
 
 export interface MovieGenreProps {
 	genreId: number | string;
-	page: number
+	page: number;
 }

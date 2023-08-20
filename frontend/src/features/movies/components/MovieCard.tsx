@@ -1,77 +1,88 @@
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import Video from 'components/video/Video';
 
 import clsx from 'clsx';
 import { Check, Dot, Flag, MoveDown, PlusCircleIcon } from 'lucide-react';
 
-import { MovieDetails, MovieProps } from '../model/Movie';
+import { useGetMovieVideoQuery } from '../api/movieApiSlice';
+import { MovieComponentProps } from '../model/Movie';
 import MovieImg from './MovieImg';
 
-interface MovieCardProps {
-    movie: MovieProps | MovieDetails;
-    banner?: boolean;
-    fullHeight?: boolean;
-    isLoading?: boolean;
-    grid?: boolean;
-}
+const MovieCard = (props: MovieComponentProps) => {
+    const { isLoading, movie } = props;
 
-const MovieCard = (props: MovieCardProps) => {
-    const { movie } = props;
-    const isBanner = props.fullHeight ? 'h-full' : 'h-72';
+    return !isLoading && movie ? <MovieCardComp {...props} /> : <LoadingCard />;
+};
 
-    return !props.isLoading && movie ? (
-        <MovieCardComp
-            movie={movie}
-            banner={props.banner}
-            fullHeight={props.fullHeight}
-            grid={props.grid}
-        />
-    ) : (
-        <div className="w-full rounded-2xl shadow">
-            <div
-                className={`animate-pulse ${isBanner} w-full rounded-2xl bg-slate-800`}
-            ></div>
+const MovieCardComp = (props: MovieComponentProps) => {
+    const { movie, banner, showTrailer, grid } = props;
+    const navigate = useNavigate();
+
+    const [trailerTimeout, setTrailerTimeout] = useState<number | null>(null);
+    const [trailer, setTrailer] = useState<boolean>(false);
+
+    const isHovered = useRef(false);
+    const movieRef = useRef<HTMLDivElement>(null);
+
+    const movieVideo = useGetMovieVideoQuery(`${movie.id}`);
+
+    const showMovieVideo = trailer && showTrailer;
+    const cardClass = getCardClassName(grid, banner, showMovieVideo);
+
+    const handleShowTrailer = () => {
+        if (!isHovered.current) {
+            isHovered.current = true;
+            const timeoutId = setTimeout(() => setTrailer(true), 500);
+            setTrailerTimeout(timeoutId);
+        }
+    };
+
+    const handleHideTrailer = () => {
+        isHovered.current = false;
+        setTrailer(false);
+        if (trailerTimeout !== null) {
+            clearTimeout(trailerTimeout);
+            setTrailerTimeout(null);
+        }
+    };
+
+    return (
+        <div
+            className={cardClass}
+            onClick={() => navigate(`/movie/preview/${movie.id}`)}
+            onMouseEnter={handleShowTrailer}
+            onMouseLeave={handleHideTrailer}
+            ref={movieRef}
+            data-id={movie.id}
+        >
+            {showMovieVideo ? (
+                <Video videoId={movieVideo.data?.results[0].key} autoPlay={showMovieVideo} />
+            ) : (
+                <MovieInfo {...props} />
+            )}
         </div>
     );
 };
 
-export default MovieCard;
-
-const MovieCardComp = (props: MovieCardProps) => {
-    const { movie, fullHeight, banner } = props;
-    const navigate = useNavigate();
-
-    const cardClassName = clsx(
-        !props.grid && !banner ? 'w-52 min-w-200' : '',
-        'group relative mb-5 cursor-pointer overflow-hidden rounded-sm bg-slate-800 text-white bg-blend-darken',
-    );
-
+const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
     return (
-        <div
-            className={cardClassName}
-            onClick={() => navigate(`/movie/preview/${movie.id}`)}
-        >
+        <>
             <MovieImg
                 path={movie.poster_path}
                 fullHeight={fullHeight}
                 banner={banner}
             />
-
             <PlusCircleIcon className="absolute right-2 top-2 text-white transition-all hover:scale-110" />
-
+            
             <div className="relative p-3">
                 <h1 className="text-md mb-3 font-bold truncate">
                     {movie.title}
                 </h1>
 
                 <div className="flex items-center gap-2 mb-1">
-                    <p className="flex items-center gap-2 text-sm font-semibold">
-                        {movie.vote_average > 6 ? (
-                            <Check width={16} />
-                        ) : (
-                            <MoveDown width={16} />
-                        )}
-                        {movie.vote_average}
-                    </p>
+                    <Vote vote={movie.vote_average} />
                     <Dot />
                     <p className="font-up flex items-center gap-2 text-sm font-semibold">
                         <Flag width={16} />
@@ -80,6 +91,41 @@ const MovieCardComp = (props: MovieCardProps) => {
                 </div>
                 <p className="text-xs text-slate-500">{movie.release_date}</p>
             </div>
+        </>
+    );
+};
+
+const LoadingCard = (props: { isBanner?: boolean }) => {
+    return (
+        <div className="w-full rounded-2xl shadow">
+            <div
+                className={`animate-pulse ${props.isBanner} w-full rounded-2xl bg-slate-800`}
+            ></div>
         </div>
     );
 };
+
+const getCardClassName = (
+    grid: boolean | undefined,
+    banner: boolean | undefined,
+    showMovieVideo: boolean | undefined,
+) => {
+    return clsx(
+        'group relative mb-5 max-h-420 cursor-pointer overflow-hidden rounded-sm bg-slate-800 text-white bg-blend-darken transition-all duration-300 ease-in-out',
+        !grid && !banner && 'w-52 min-w-200',
+        showMovieVideo && 'hover:min-w-640',
+    );
+};
+
+const Vote = ({ vote }: { vote: number }) => {
+    const Icon = vote > 6 ? Check : MoveDown;
+
+    return (
+        <p className="flex items-center gap-2 text-sm font-semibold">
+            <Icon width={16} />
+            {vote}
+        </p>
+    );
+};
+
+export default MovieCard;

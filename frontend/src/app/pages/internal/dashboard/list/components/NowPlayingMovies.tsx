@@ -6,7 +6,8 @@ import { MovieProps } from 'features/movies/model/Movie';
 
 const NowPlayingMovies = () => {
     const [movieList, setMovieList] = useState<MovieProps[]>([]);
-    const { data: nowPlayingMovies, isLoading: nowPlayingLoading } = useGetPlayingNowMoviesQuery();
+    const { data: nowPlayingMovies, isLoading: nowPlayingLoading } =
+        useGetPlayingNowMoviesQuery();
 
     useEffect(() => {
         if (nowPlayingMovies) {
@@ -19,7 +20,7 @@ const NowPlayingMovies = () => {
             isLoading={nowPlayingLoading}
             movieList={movieList}
             title="Playing now"
-            // movieNumber={4}
+            showTrailer
         />
     );
 };

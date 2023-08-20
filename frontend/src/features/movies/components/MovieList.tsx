@@ -13,6 +13,7 @@ interface MovieListProps {
     movieNumber?: number;
     title: string;
     grid?: boolean;
+	showTrailer?: boolean;
 }
 
 const MovieList = (props: MovieListProps) => {
@@ -40,6 +41,7 @@ const MovieList = (props: MovieListProps) => {
                                 key={movie.id}
                                 isLoading={props.isLoading}
                                 grid={props.grid}
+                                showTrailer={props.showTrailer}
                             />
                         );
                     })
