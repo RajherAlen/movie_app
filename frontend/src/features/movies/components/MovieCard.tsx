@@ -67,6 +67,10 @@ const MovieCardComp = (props: MovieComponentProps) => {
 };
 
 const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
+    const handleAddMovie = (e: any) => {
+        e.stopPropagation();
+        console.log(movie)
+    }
     return (
         <>
             <MovieImg
@@ -74,7 +78,7 @@ const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
                 fullHeight={fullHeight}
                 banner={banner}
             />
-            <PlusCircleIcon className="absolute right-2 top-2 text-white transition-all hover:scale-110" />
+            <PlusCircleIcon onClick={(e: React.MouseEvent) => handleAddMovie(e)} className="absolute right-2 top-2 text-white transition-all hover:scale-110" />
             
             <div className="relative p-3">
                 <h1 className="text-md mb-3 font-bold truncate">
