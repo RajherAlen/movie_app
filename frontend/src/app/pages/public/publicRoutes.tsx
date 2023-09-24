@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteObject } from 'react-router-dom';
 
 import { PageLoader } from 'components/loaders';
+import Login from './login/Login';
 
 const NotFound = React.lazy(() => import('../NotFound'));
 
@@ -12,10 +13,10 @@ export const publicRoutes: RouteObject[] = [
             {
                 element: (
                     <React.Suspense fallback={<PageLoader />}>
-                        {/* <Login /> */}
+                        <Login />
                     </React.Suspense>
                 ),
-                path: 'login',
+                path: '/login',
             },
             {
                 element: (

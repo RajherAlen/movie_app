@@ -27,7 +27,7 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
     {} as FormFieldContextValue,
 );
 
-const FormField = <
+const FormInputField = <
     TFieldValues extends FieldValues = FieldValues,
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
@@ -174,5 +174,5 @@ export {
     FormControl,
     FormDescription,
     FormMessage,
-    FormField,
+    FormInputField,
 };

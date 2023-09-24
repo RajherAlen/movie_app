@@ -27,7 +27,7 @@ const NavigationItem = ({ icon: Icon, title, to }: NavigationItemProps) => {
     return (
         <Link
             to={to}
-            className="mb-1 flex items-center gap-4 rounded-sm p-2 transition-all ease-out hover:bg-slate-100 hover:dark:bg-slate-900"
+            className="mb-1 flex items-center gap-3 rounded-sm p-2 transition-all ease-out hover:bg-slate-100 hover:dark:bg-slate-900"
         >
             {Icon && <Icon width={16} className={isActiveStyle} />}
             <div className={clsx('text-sm font-medium', isActiveStyle)}>

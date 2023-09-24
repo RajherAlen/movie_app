@@ -1,4 +1,4 @@
-import { MovieDetails, MovieGenreProps, MovieGenresProps, MovieProps, MovieVideoProps } from "../model/Movie";
+import { MovieDetails, MovieGenreProps, MovieProps,  } from "../model/Movie";
 import { apiSlice } from "app/auth/apiSlice";
 
 export const movieApiSlice = apiSlice.injectEndpoints({

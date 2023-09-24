@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import LocalStorageProvider from 'utils/storage/LocalStorageProvider';
 
-const backendURL = 'http://localhost:5000/api';
+const backendURL = 'http://localhost:5000';
 
 export interface LoginUserProps {
     username: string;
@@ -12,7 +12,7 @@ export const loginUser = createAsyncThunk(
     'auth/login',
     async ({ username, password }: LoginUserProps, { rejectWithValue }) => {
         try {
-            const res = await fetch(`${backendURL}/users/login`, {
+            const res = await fetch(`${backendURL}/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,11 +23,14 @@ export const loginUser = createAsyncThunk(
                 }),
             });
 
+            console.log(res)
+            
             const data = await res.json();
-
+            
+            console.log(data);
             // store user's token in local storage
-            LocalStorageProvider.set('userInfo', data.userInfo);
-            LocalStorageProvider.set('userToken', data.userToken);
+            // LocalStorageProvider.set('userInfo', data.userInfo);
+            // LocalStorageProvider.set('userToken', data.userToken);
 
             return data;
         } catch (error: any) {
