@@ -15,14 +15,19 @@ const loginUser = async (req, res, next) => {
 			console.log("User not exists");
 			res.status(400).json({ error: "User not exists" });
 		} else {
-			const isValidPassword = await bcrypt.compare(password, existingUser[0][0].password);
+			const isValidPassword = await bcrypt.compare(
+				password,
+				existingUser[0][0].password
+			);
 			const loggedUser = existingUser[0][0];
-			const userToken = await generateToken(username);
-			
-			if(isValidPassword) {
-				res.json({...loggedUser, userToken });
+			const userToken = generateToken(username);
+
+			if (isValidPassword) {
+				res.json({ userInfo: loggedUser, userToken });
 			} else {
-				res.status(400).json({ error: "Something went wrong please try again!" });
+				res.status(400).json({
+					error: "Something went wrong please try again!"
+				});
 			}
 		}
 	} catch (err) {

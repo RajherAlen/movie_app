@@ -1,20 +1,24 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const { validationResult } = require("express-validator");
-
-const pool = require("../db");
+const db = require("../db");
 
 const movieList = async (req, res, next) => {
-	const { user_id } = req.body;
-	console.log("MOVIEEES");
+	const { userId } = req.params;
+	const movieList = await db.query(
+		"SELECT * FROM movie_list WHERE user_id = ?",
+		[userId]
+	);
+
+	res.json(movieList[0]);
 };
 
 const addToMovieList = async (req, res, next) => {
-	const { movie_id, user_id } = req.body;
+	const { userId } = req.params;
+	const { title, poster_path, vote_average, id, overview } = req.body;
 
-	const newMovie = await pool.query(
-		"INSERT INTO movie_watch_list (movie_id, user_id) VALUES (?, ?)",
-		[movie_id, user_id]
+	// TODO - CHECK IF MOVIE EXISTS IN DB
+
+	const newMovie = await db.query(
+		"INSERT INTO movie_list (title, poster_path, vote_average, movie_id, user_id, overview) VALUES (?, ?, ?, ?, ?, ?)",
+		[title, poster_path, vote_average, id, userId, overview.slice(0, 255)]
 	);
 
 	res.json(newMovie);

@@ -1,43 +1,38 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import LocalStorageProvider from "utils/storage/LocalStorageProvider";
 import validationToast from "utils/validation/validationToast";
 
 const backendURL = "http://localhost:5000";
 
-export interface LoginUserProps {
-	username: string;
-	password: string;
+interface movieListProps {
+	userId: string;
+	movieId: string | number;
 }
 
-export const loginUser = createAsyncThunk(
-	"auth/login",
-	async ({ username, password }: LoginUserProps, { rejectWithValue }) => {
+export const addToMovieList = createAsyncThunk(
+	"movieList",
+	async ({ userId, movieId }: movieListProps, { rejectWithValue }) => {
 		try {
-			const res = await fetch(`${backendURL}/auth/login`, {
+			const res = await fetch(`${backendURL}/movie-list/${userId}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					username,
-					password
+					movieId
 				})
 			});
 
 			const data = await res.json();
 
 			if (res.status === 200) {
-				// store user's token in local storage
-				LocalStorageProvider.set("userInfo", data.userInfo);
-				LocalStorageProvider.set("userToken", data.userToken);
+				// console.log(data);
 			} else {
 				validationToast({
 					status: "error",
 					message: "Something went wrong please try again"
 				});
 			}
-
-			return data;
+            return data
 		} catch (error: any) {
 			// return custom error message from backend if present
 			if (error.response && error.response.data.message) {

@@ -6,15 +6,14 @@ import { PageLoader } from 'components/loaders';
 import MainLayout from 'layouts/MainLayout';
 
 const NotFound = React.lazy(() => import('../NotFound'));
-const DashboardListDisplay = React.lazy(
-    () => import('./dashboard/list/DashboardListDisplay'),
-);
-const UpcomingListDisplay = React.lazy(
-    () => import('./upcoming/list/UpcomingListDisplay'),
-);
-const MoviePreviewListDisplay = React.lazy(
-    () => import('./movie/preview/MoviePreviewListDisplay'),
-);
+// prettier-ignore
+const DashboardListDisplay = React.lazy(() => import('./dashboard/list/DashboardListDisplay'));
+// prettier-ignore
+const UpcomingListDisplay = React.lazy(() => import('./upcoming/list/UpcomingListDisplay'));
+// prettier-ignore
+const MoviePreviewListDisplay = React.lazy(() => import('./movie/preview/MoviePreviewListDisplay'));
+// prettier-ignore
+const WatchListListDisplay = React.lazy(() => import('./watchlist/WatchListListDisplay'));
 
 export const internalRoutes: RouteObject[] = [
     {
@@ -49,6 +48,14 @@ export const internalRoutes: RouteObject[] = [
                             </React.Suspense>
                         ),
                         path: '/movie/preview/:movieId',
+                    },
+                    {
+                        element: (
+                            <React.Suspense fallback={<PageLoader />}>
+                                <WatchListListDisplay />
+                            </React.Suspense>
+                        ),
+                        path: '/watchlist/:userId',
                     },
                 ],
             },

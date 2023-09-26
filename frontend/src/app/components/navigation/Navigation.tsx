@@ -1,8 +1,14 @@
+import { useEffect, useState } from 'react';
+
+import { useAppSelector } from 'app/auth/hooks';
+
 import { Calendar, Compass, Heart } from 'lucide-react';
 
 import NavigationItem from './NavigationItem';
 
 const Navigation = () => {
+    const { userInfo } = useAppSelector((state) => state.authStore);
+
     return (
         <div className="w-52 border-r px-6">
             <div className="py-6 font-bold">Movie DB</div>
@@ -23,7 +29,7 @@ const Navigation = () => {
                         title="Comming Soon"
                     />
                     <NavigationItem
-                        to="/watchlist"
+                        to={`/watchlist/${userInfo.id}`}
                         icon={Heart}
                         title="Watchlist"
                     />

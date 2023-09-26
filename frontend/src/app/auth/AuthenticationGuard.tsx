@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import style from './Unauthorized.module.css';
 import { useAppSelector } from './hooks';
 
 type Props = {
@@ -14,7 +13,7 @@ export const AuthenticationGuard: React.FC<Props> = (props) => {
     // show unauthorized screen if no user or token is found in redux store
     if (!userInfo || !userToken) {
         return (
-            <div className={style['wrapper']}>
+            <div>
                 <div>
                     <h1>Unauthorized</h1>
                     <span>

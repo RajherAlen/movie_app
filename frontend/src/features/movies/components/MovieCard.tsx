@@ -1,7 +1,14 @@
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Video from 'components/video/Video';
+
+import { addToMovieList } from 'features/watchlist/actions/addToMovieList';
+import { useAddToWatchListMutation } from 'features/watchlist/api/watchListApiSlice';
+
+// import { useAddToMovieListMutation } from 'features/watchlist/api/watchListApiSlice';
+import { useAppSelector } from 'app/auth/hooks';
 
 import clsx from 'clsx';
 import { Check, Dot, Flag, MoveDown, PlusCircleIcon } from 'lucide-react';
@@ -58,7 +65,10 @@ const MovieCardComp = (props: MovieComponentProps) => {
             data-id={movie.id}
         >
             {showMovieVideo ? (
-                <Video videoId={movieVideo.data?.results[0].key} autoPlay={showMovieVideo} />
+                <Video
+                    videoId={movieVideo.data?.results[0].key}
+                    autoPlay={showMovieVideo}
+                />
             ) : (
                 <MovieInfo {...props} />
             )}
@@ -67,10 +77,15 @@ const MovieCardComp = (props: MovieComponentProps) => {
 };
 
 const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
+    const { userInfo } = useAppSelector((state) => state.authStore);
+    const [addToMovieList] = useAddToWatchListMutation();
+
     const handleAddMovie = (e: any) => {
         e.stopPropagation();
-        console.log(movie)
-    }
+
+        addToMovieList({ movie, userId: userInfo.id });
+    };
+
     return (
         <>
             <MovieImg
@@ -78,8 +93,11 @@ const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
                 fullHeight={fullHeight}
                 banner={banner}
             />
-            <PlusCircleIcon onClick={(e: React.MouseEvent) => handleAddMovie(e)} className="absolute right-2 top-2 text-white transition-all hover:scale-110" />
-            
+            <PlusCircleIcon
+                onClick={(e: React.MouseEvent) => handleAddMovie(e)}
+                className="absolute right-2 top-2 text-white transition-all hover:scale-110"
+            />
+
             <div className="relative p-3">
                 <h1 className="text-md mb-3 font-bold truncate">
                     {movie.title}

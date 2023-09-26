@@ -24,11 +24,6 @@ export const validationToast = (props: validationProps) => {
 				position: toast.POSITION.BOTTOM_RIGHT
 			});
 			break;
-		case "info":
-			toast.info(message, {
-				position: toast.POSITION.BOTTOM_RIGHT
-			});
-			break;
 		default:
 		case "info":
 			toast.info(message, {
