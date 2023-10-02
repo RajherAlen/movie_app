@@ -5,12 +5,12 @@ const backendURL = "http://localhost:5000";
 
 interface movieListProps {
 	userId: string;
-	movieId: string | number;
+	movie: any;
 }
 
 export const addToMovieList = createAsyncThunk(
 	"movieList",
-	async ({ userId, movieId }: movieListProps, { rejectWithValue }) => {
+	async ({ userId, movie }: movieListProps, { rejectWithValue }) => {
 		try {
 			const res = await fetch(`${backendURL}/movie-list/${userId}`, {
 				method: "POST",
@@ -18,18 +18,19 @@ export const addToMovieList = createAsyncThunk(
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					movieId
+					movie
 				})
 			});
 
 			const data = await res.json();
+			console.log(data);
 
 			if (res.status === 200) {
 				// console.log(data);
 			} else {
 				validationToast({
-					status: "error",
-					message: "Something went wrong please try again"
+					status: "warn",
+					message: data
 				});
 			}
             return data

@@ -4,11 +4,13 @@ import movieSlice from 'features/movies/movieSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { apiSlice } from './apiSlice';
+import watchlistSlice from 'features/watchlist/watchlistSlice';
 
 export const store = configureStore({
     reducer: {
         authStore: authSlice,
         movieStore: movieSlice,
+        watchlistStore: watchlistSlice,
         [apiSlice.reducerPath]: apiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => {

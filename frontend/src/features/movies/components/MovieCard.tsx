@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,10 +8,11 @@ import { addToMovieList } from 'features/watchlist/actions/addToMovieList';
 import { useAddToWatchListMutation } from 'features/watchlist/api/watchListApiSlice';
 
 // import { useAddToMovieListMutation } from 'features/watchlist/api/watchListApiSlice';
-import { useAppSelector } from 'app/auth/hooks';
+import { useAppDispatch, useAppSelector } from 'app/auth/hooks';
 
 import clsx from 'clsx';
 import { Check, Dot, Flag, MoveDown, PlusCircleIcon } from 'lucide-react';
+import validationToast from 'utils/validation/validationToast';
 
 import { useGetMovieVideoQuery } from '../api/movieApiSlice';
 import { MovieComponentProps } from '../model/Movie';
@@ -59,31 +60,50 @@ const MovieCardComp = (props: MovieComponentProps) => {
         <div
             className={cardClass}
             onClick={() => navigate(`/movie/preview/${movie.id}`)}
-            onMouseEnter={handleShowTrailer}
-            onMouseLeave={handleHideTrailer}
+            // onMouseEnter={handleShowTrailer}
+            // onMouseLeave={handleHideTrailer}
             ref={movieRef}
             data-id={movie.id}
         >
-            {showMovieVideo ? (
+            <MovieInfo {...props} />
+            {/* {showMovieVideo ? (
                 <Video
                     videoId={movieVideo.data?.results[0].key}
                     autoPlay={showMovieVideo}
                 />
             ) : (
                 <MovieInfo {...props} />
-            )}
+            )} */}
         </div>
     );
 };
 
 const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
     const { userInfo } = useAppSelector((state) => state.authStore);
-    const [addToMovieList] = useAddToWatchListMutation();
+    const [addToWatchList, { isError, data }] = useAddToWatchListMutation();
+    
+    // Use useEffect to listen for changes in isError and data
+    useEffect(() => {
+        if (data) {
+            validationToast({
+                status: 'success',
+                message: 'Movie is added',
+            });
+        }
+
+        if (isError) {
+            validationToast({
+                status: 'error',
+                message: 'Something went wrong, please try again',
+            });
+        }
+    }, [data, isError]);
+
 
     const handleAddMovie = (e: any) => {
         e.stopPropagation();
 
-        addToMovieList({ movie, userId: userInfo.id });
+        addToWatchList({ movie, userId: userInfo.id });
     };
 
     return (

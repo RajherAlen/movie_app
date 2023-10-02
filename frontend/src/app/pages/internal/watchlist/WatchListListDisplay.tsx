@@ -5,7 +5,7 @@ import { useAppSelector } from 'app/auth/hooks';
 const WatchListListDisplay = () => {
     const { userInfo } = useAppSelector((state) => state.authStore);
     const { data, isLoading } = useGetWatchListQuery(userInfo.id);
-    console.log(data)
+
     if (isLoading) return <div>Loading...</div>;
     
     if (data?.length === 0) return <div>List is empty</div>;
