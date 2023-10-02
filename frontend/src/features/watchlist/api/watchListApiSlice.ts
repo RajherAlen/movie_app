@@ -22,7 +22,7 @@ export const watchListApiSlice = apiSlice
 				invalidatesTags: ["movieList"]
 			})
 		}),
-		overrideExisting: true
+	overrideExisting: true
 	});
 
 export const { useGetWatchListQuery, useAddToWatchListMutation } =

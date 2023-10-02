@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { PageLoader } from 'components/loaders';
 import Video from 'components/video/Video';
 
 import { addToMovieList } from 'features/watchlist/actions/addToMovieList';
@@ -81,8 +82,7 @@ const MovieCardComp = (props: MovieComponentProps) => {
 const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
     const { userInfo } = useAppSelector((state) => state.authStore);
     const [addToWatchList, { isError, data }] = useAddToWatchListMutation();
-    
-    // Use useEffect to listen for changes in isError and data
+
     useEffect(() => {
         if (data) {
             validationToast({
@@ -98,7 +98,6 @@ const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
             });
         }
     }, [data, isError]);
-
 
     const handleAddMovie = (e: any) => {
         e.stopPropagation();
