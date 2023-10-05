@@ -11,6 +11,7 @@ import {
 import { useGetWatchListQuery } from 'features/watchlist/api/watchListApiSlice';
 
 import { useAppSelector } from 'app/auth/hooks';
+import clsx from 'clsx';
 
 const WatchListListDisplay = () => {
     const { userInfo } = useAppSelector((state) => state.authStore);
@@ -20,23 +21,25 @@ const WatchListListDisplay = () => {
 
     if (data?.length === 0 || !data) return <div>List is empty</div>;
 
-    // TODO
-    // ADD FILTERS FOR WATCHED | NOT WATCHED
+    // return <>TEST</>;
 
-    // PAGINATION
+    // // TODO
+    // // ADD FILTERS FOR WATCHED | NOT WATCHED
 
-    // SEARCH
+    // // PAGINATION
 
-    // SORT BY VOTE | ALPHABETICAL
+    // // SEARCH
 
-    // LINK TO PREVIEW
+    // // SORT BY VOTE | ALPHABETICAL
+
+    // // LINK TO PREVIEW
 
     return (
         <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead className="w-[100px]">Title</TableHead>
-                    <TableHead>Overview</TableHead>
+                    {/* <TableHead>Overview</TableHead> */}
                     <TableHead className="text-center">Status</TableHead>
                     <TableHead className="text-right">Vote</TableHead>
                 </TableRow>
@@ -47,15 +50,15 @@ const WatchListListDisplay = () => {
                         <TableCell className="font-medium min-w-[250px]">
                             {movie.title}
                         </TableCell>
-                        <TableCell className="min-w-[600px] max-w-[600px] truncate whitespace-nowrap overflow-hidden">
+                        {/* <TableCell className="min-w-[600px] max-w-[600px] truncate whitespace-nowrap overflow-hidden">
                             {movie.overview}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="text-center">
-                            {/* <div className="py-1 px-4  inline shadow-md no-underline rounded-full bg-red-700 text-white text-xs font-medium">
-                                Not Watched
-                            </div> */}
-                            <div className="py-1 px-4  inline shadow-md no-underline rounded-full bg-green-600 text-white text-xs font-medium">
-                                Watched
+                            <div className={clsx(
+                                "py-1 px-4  inline shadow-md no-underline rounded-full text-white text-xs font-medium cursor-pointer",
+                                movie.isWatched ? 'bg-green-600' : 'bg-red-700'
+                            )}>
+                                {movie.isWatched ? "Watched":"Not Watched"}
                             </div>
                         </TableCell>
                         <TableCell className="text-right">
