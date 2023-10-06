@@ -66,7 +66,9 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     <Input
                         placeholder={filterPlaceholder}
                         value={(table.getColumn(searchQuery)?.getFilterValue() as string) ?? ''}
-                        onChange={(event) => table.getColumn(searchQuery)?.setFilterValue(event.target.value)}
+                        onChange={(event) => {
+                            table.getColumn(searchQuery)?.setFilterValue(event.target.value);
+                        }}
                         className="max-w-sm"
                     />
                 </div>
@@ -79,7 +81,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} style={{ width: header.getSize() }}>
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(header.column.columnDef.header, header.getContext())}
@@ -93,11 +95,13 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        );
+                                    })}
                                 </TableRow>
                             ))
                         ) : (
