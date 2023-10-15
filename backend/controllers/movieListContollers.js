@@ -42,5 +42,37 @@ const addToMovieList = async (req, res, next) => {
 	res.json(newMovie);
 };
 
+const deleteMovie = async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const { movieId } = req.body;
+
+		const deletedMovie = await db.query(
+			`DELETE FROM movie_list WHERE user_id = ${userId} AND movie_id = ${movieId}`
+		);
+
+		res.json(deletedMovie);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const updateIsWatched = async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const { movieId, isWatched } = req.body;
+
+		const updatedMovie = await db.query(
+			`UPDATE movie_list SET isWatched = "${isWatched}" WHERE movie_id = ${movieId} AND user_id = ${userId}`
+		);
+
+		res.json(updatedMovie);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 exports.movieList = movieList;
 exports.addToMovieList = addToMovieList;
+exports.deleteMovie = deleteMovie;
+exports.updateIsWatched = updateIsWatched;
