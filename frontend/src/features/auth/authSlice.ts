@@ -1,4 +1,4 @@
-import { loginUser } from "./actions/loginUser";
+import { loginUser } from "./actions/authApiSlice";
 import { registerUser } from "./actions/registerUser";
 import { createSlice } from "@reduxjs/toolkit";
 import LocalStorageProvider from "utils/storage/LocalStorageProvider";
@@ -43,43 +43,12 @@ const authSlice = createSlice({
 			state.error = null;
 		},
 		setCredentials: (state, { payload }) => {
-			state.userInfo = payload.userInfo;
-			state.userToken = payload.userToken;
-		}
-	},
-	extraReducers(builder) {
-		// login user
-		builder
-			.addCase(loginUser.pending, (state) => {
-				state.loading = true;
-				state.error = null;
-			})
-			.addCase(loginUser.fulfilled, (state, { payload }) => {
-				console.log(state, payload)
-				state.loading = false;
-				state.userInfo = payload.userInfo;
-				state.userToken = payload.userToken;
+			state.userInfo = payload.data.userInfo;
+			state.userToken = payload.data.userToken;
 
-				if (payload.message) {
-					state.error = payload.message;
-				}
-			})
-			.addCase(loginUser.rejected, (state, { payload }) => {
-				state.loading = false;
-				state.error = payload;
-			})
-			// register user
-			.addCase(registerUser.pending, (state) => {
-				state.loading = true;
-			})
-			.addCase(registerUser.fulfilled, (state) => {
-				state.loading = false;
-				state.success = true; // registration successful
-			})
-			.addCase(registerUser.rejected, (state, { payload }) => {
-				state.loading = false;
-				state.error = payload;
-			});
+			LocalStorageProvider.set("userInfo", state.userInfo);
+			LocalStorageProvider.set("userToken", state.userToken);
+		}
 	}
 });
 

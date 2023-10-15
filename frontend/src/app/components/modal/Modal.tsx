@@ -30,16 +30,15 @@ interface ModalContentProps {
     children: React.ReactNode;
     title?: string;
     description?: string;
+    className?: string;
 }
 
 const ModalContent = (props: ModalContentProps) => {
     return (
-        <DialogContent>
+        <DialogContent className={props.className}>
             <DialogHeader>
                 {props.title && <DialogTitle>{props.title}</DialogTitle>}
-                {props.description && (
-                    <DialogDescription>{props.description}</DialogDescription>
-                )}
+                {props.description && <DialogDescription>{props.description}</DialogDescription>}
             </DialogHeader>
             {props.children}
         </DialogContent>

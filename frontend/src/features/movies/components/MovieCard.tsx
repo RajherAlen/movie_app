@@ -20,7 +20,7 @@ const MovieCard = (props: MovieComponentProps) => {
 
 const MovieCardComp = (props: MovieComponentProps) => {
     const { movie, banner, grid } = props;
-    
+
     const navigate = useNavigate();
     const cardClass = getCardClassName(grid, banner);
 
@@ -63,7 +63,7 @@ const MovieInfo = ({ movie, fullHeight, banner }: MovieComponentProps) => {
 
     return (
         <>
-            <MovieImg path={movie.poster_path} fullHeight={fullHeight} banner={banner} />
+            <MovieImg path={banner ? movie.backdrop_path : movie.poster_path} fullHeight={fullHeight} banner={banner} />
             <PlusCircleIcon
                 onClick={(e: React.MouseEvent) => handleAddMovie(e)}
                 className="absolute right-2 top-2 text-white transition-all hover:scale-110"

@@ -15,24 +15,35 @@ import {
     getSortedRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import clsx from 'clsx';
+import { XCircleIcon, XSquareIcon } from 'lucide-react';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     filterPlaceholder?: string;
     showFilterInput?: boolean;
-    searchQuery: string;
+    columnFiltering?: string | undefined;
+    setFilteringValue?: string;
+    filterComponent?: React.ReactNode;
 }
 
+type MovieStatus = "true" | "false" | ""
+
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
-    const { columns, data, filterPlaceholder, showFilterInput, searchQuery } = props;
+    const { columns, data, filterPlaceholder, columnFiltering, showFilterInput } = props;
 
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [globalFiltering, setGlobalFiltering] = useState<string>(
+        props.setFilteringValue ? props.setFilteringValue : ''
+    );
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [isActive, setIsActive] = useState<MovieStatus>("");
 
     const table = useReactTable({
         data,
         columns,
+
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
 
@@ -40,13 +51,17 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
 
-        // filter
+        // filter global and column
+        onGlobalFilterChange: setGlobalFiltering,
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
 
+        enableSortingRemoval: false,
+        sortDescFirst: true,
         state: {
             sorting,
             columnFilters,
+            globalFilter: globalFiltering,
         },
     });
 
@@ -59,20 +74,78 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     const endPage = Math.min(totalPages - 1, currentPageIndex + displayPageRange);
     const paginationList = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
+    const onFilterChange = (id: any, value: any) =>
+        setColumnFilters((prev) => {
+            return prev
+                .filter((f) => f.id !== id)
+                .concat({
+                    id,
+                    value,
+                });
+        });
+
+    const handleFilterStatus = (status: MovieStatus) => {
+        onFilterChange('isWatched', `${status}`);
+        setIsActive(status);
+    };
+
+    const tabClassName = (active: boolean) => {
+        return clsx(
+            'flex items-center justify-center py-[6px] px-6 rounded text-xs font-medium cursor-pointer',
+            active ? 'bg-slate-800' : ''
+        );
+    };
+
     return (
         <div>
-            {showFilterInput && (
-                <div className="flex items-center py-4">
-                    <Input
-                        placeholder={filterPlaceholder}
-                        value={(table.getColumn(searchQuery)?.getFilterValue() as string) ?? ''}
-                        onChange={(event) => {
-                            table.getColumn(searchQuery)?.setFilterValue(event.target.value);
+            <div className="flex items-center gap-4 mb-3">
+                {showFilterInput && columnFiltering && (
+                    <div className="flex items-center py-4">
+                        <Input
+                            placeholder={filterPlaceholder}
+                            value={(table.getColumn(columnFiltering)?.getFilterValue() as string) ?? ''}
+                            onChange={(e) => {
+                                handleFilterStatus("");
+                                onFilterChange('title', e.target.value);
+                            }}
+                            className="max-w-sm"
+                        />
+                    </div>
+                )}
+
+                <div className="inline-flex p-1 rounded border border-input bg-background" role="group">
+                    <div
+                        className={tabClassName(isActive === 'true' ? true : false)}
+                        onClick={() => {
+                            handleFilterStatus("true");
                         }}
-                        className="max-w-sm"
-                    />
+                    >
+                        Watched
+                    </div>
+                    <div
+                        className={tabClassName(isActive === "false" ? true : false)}
+                        onClick={() => {
+                            handleFilterStatus("false");
+                        }}
+                    >
+                        Not Watched
+                    </div>
                 </div>
-            )}
+
+                <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex gap-2 text-gray-300"
+                    onClick={() => {
+                        handleFilterStatus("");
+                        onFilterChange('title', '');
+                        setSorting([])
+                    }}
+                >
+                    <XCircleIcon width="16" />
+                    Clear
+                </Button>
+            </div>
 
             <div className="rounded-md border">
                 <Table>

@@ -17,7 +17,7 @@ export const Video = ({ videoId, autoPlay }: VideProps) => {
     };
 
     const opts: YouTubeProps['opts'] = {
-        height: '420',
+        height: '390',
         width: '640',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters

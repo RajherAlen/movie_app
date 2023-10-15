@@ -13,8 +13,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { handleError } from 'libs/handleError';
 import { z } from 'zod';
 
-import { loginUser } from '../actions/loginUser';
+import { useLoginMutation } from '../actions/authApiSlice';
+import { setCredentials } from '../authSlice';
 import { LoginFormValues, loginSchema } from './loginSchema';
+import ActionButton from 'components/buttons/ActionButton';
 
 const initialData = {
     username: '',
@@ -22,9 +24,10 @@ const initialData = {
 };
 
 const LoginForm = () => {
-    const { loading, userToken } = useAppSelector((state) => state.authStore);
+    const { userToken } = useAppSelector((state) => state.authStore);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const [login, { isLoading }] = useLoginMutation();
 
     const [errors, setErrors] = useState<Record<string, string>>(initialData);
 
@@ -40,11 +43,12 @@ const LoginForm = () => {
         defaultValues: initialData,
     });
 
-    const handleSubmit = (values: z.infer<typeof loginSchema>) => {
+    const handleSubmit = async (values: z.infer<typeof loginSchema>) => {
         const validation = loginSchema.safeParse(values);
 
         if (validation.success) {
-            dispatch(loginUser(values));
+            const data = await login(values);
+            dispatch(setCredentials(data));
         } else {
             const newErrors = handleError(validation);
             setErrors(newErrors);
@@ -55,17 +59,9 @@ const LoginForm = () => {
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <h1 className="text-2xl mb-10">Login</h1>
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(handleSubmit)}
-                    className="space-y-4 md:space-y-6 w-80"
-                >
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 md:space-y-6 w-80">
                     <div className="w-full">
-                        <FormField
-                            name="username"
-                            errorMessage={errors.username}
-                            placeholder="Username"
-                            form={form}
-                        />
+                        <FormField name="username" errorMessage={errors.username} placeholder="Username" form={form} />
                     </div>
 
                     <div className="w-full">
@@ -77,9 +73,7 @@ const LoginForm = () => {
                             type="password"
                         />
                     </div>
-                    <Button type="submit" className="w-full" disabled={loading}>
-                        Login
-                    </Button>
+                    <ActionButton actionLabel='Login' isLoading={isLoading} />
                 </form>
             </Form>
             <p className="mt-10 text-sm">

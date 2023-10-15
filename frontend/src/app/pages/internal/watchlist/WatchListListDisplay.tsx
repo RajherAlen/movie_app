@@ -14,26 +14,19 @@ const WatchListListDisplay = () => {
 
     if (data?.length === 0 || !data) return <div>List is empty</div>;
 
+    // // LINK TO PREVIEW
+
     return (
-        <DataTable
-            columns={columns}
-            data={data}
-            showFilterInput
-            filterPlaceholder="Search by title"
-            searchQuery="title"
-        />
+        <>
+            <DataTable
+                columns={columns}
+                data={data}
+                showFilterInput
+                filterPlaceholder="Search by title"
+                columnFiltering="title"
+            />
+        </>
     );
 };
 
 export default WatchListListDisplay;
-
-// // TODO
-// // ADD FILTERS FOR WATCHED | NOT WATCHED
-
-// // PAGINATION
-
-// // SEARCH
-
-// // SORT BY VOTE | ALPHABETICAL
-
-// // LINK TO PREVIEW
