@@ -73,6 +73,9 @@ module.exports = {
             blur: {
                 xs: '2px',
             },
+            height: {
+                '420': '420px'
+            },
             minWidth: {
                 '200': '200px',
                 '640': '640px'

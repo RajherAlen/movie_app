@@ -12,7 +12,7 @@ const MoviesBySearchQuery = () => {
         useGetMovieByNameQuery(movieName);
 
     if (searchResultsLoading) {
-        return <CardListLoader list={12} />;
+        return <CardListLoader />;
     }
 
     return searchResults && searchResults.results.length > 0 ? (
